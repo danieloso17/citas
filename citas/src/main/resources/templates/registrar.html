@@ -1,0 +1,67 @@
+<html>
+<head>
+    <style>
+        .form-container {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container h2 {
+            text-align: center;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="date"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            float: right;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Registrar Cita</h2>
+    <form action="/registrar-cita" method="post">
+
+        <label for="documentId">ID del documento:</label>
+        <input type="text" id="documentId" name="documentId" required>
+
+        <label for="typeQuote">Tipo de cita:</label>
+        <input type="text" id="typeQuote" name="typeQuote" required>
+
+        <label for="typeDocument">Tipo de documento:</label>
+        <input type="text" id="typeDocument" name="typeDocument" required>
+
+        <label for="nameClient">Nombre del cliente:</label>
+        <input type="text" id="nameClient" name="nameClient" required>
+
+        <label for="doctorName">Nombre del doctor:</label>
+        <input type="text" id="doctorName" name="doctorName" required>
+
+        <label for="dateQuote">Fecha de la cita:</label>
+        <input type="date" id="dateQuote" name="dateQuote" required>
+
+        <label for="ageClient">Edad del cliente:</label>
+        <input type="number" id="ageClient" name="ageClient" required>
+
+        <input type="submit" value="Registrar">
+    </form>
+</div>
+</body>
+</html>

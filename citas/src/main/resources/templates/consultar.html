@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Consulta de Documento</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 400px;
+            margin: 50px auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .result-container {
+            margin-top: 30px;
+        }
+
+        .result-group {
+            margin-bottom: 10px;
+        }
+
+        .result-group label {
+            font-weight: bold;
+        }
+
+        .result-group span {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+  <h2>Consulta de Documento</h2><form action="/consultar-documento" method="get">
+  <div class="form-group">
+    <label for="documentId">Documento ID:</label>
+    <input type="text" id="documentId" name="documentId" required>
+  </div>
+  <div class="form-group">
+    <button type="submit">Consultar</button>
+  </div>
+</form>
+
+  <div class="result-container">
+    <div class="result-group">
+      <label>ID:</label>
+      <span id="result-id"></span>
+    </div>
+    <div class="result-group">
+      <label>Nombre del cliente:</label>
+      <span id="result-client-name"></span>
+    </div>
+    <div class="result-group">
+      <label>Tipo de documento:</label>
+      <span id="result-type-document"></span>
+    </div>
+    <div class="result-group">
+      <label>Tipo de cita:</label>
+      <span id="result-type-quote"></span>
+    </div>
+    <div class="result-group">
+      <label>Nombre del doctor:</label>
+      <span id="result-doctor-name"></span>
+    </div>
+    <div class="result-group">
+      <label>Fecha de cita:</label>
+      <span id="result-date-quote"></span>
+    </div>
+    <div class="result-group">
+      <label>Edad del cliente:</label>
+      <span id="result-age-client"></span>
+    </div>
+  </div>
+
+  <script>
+    // Obtener los elementos del resultado por su id
+    var resultId = document.getElementById('result-id');
+    var resultClientName = document.getElementById('result-client-name');
+    var resultTypeDocument = document.getElementById('result-type-document');
+    var resultTypeQuote = document.getElementById('result-type-quote');
+    var resultDoctorName = document.getElementById('result-doctor-name');
+    var resultDateQuote = document.getElementById('result-date-quote');
+    var resultAgeClient = document.getElementById('result-age-client');
+
+    // Obtener el formulario y asignar una función al evento 'submit'
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evitar el envío del formulario por defecto
+
+        var documentId = document.getElementById('documentId').value; // Obtener el valor del campo de documento ID
+
+        // Hacer la petición al servicio para obtener los datos
+        fetch('/consultar-documento?documentId=' + documentId)
+            .then(response => response.json())
+            .then(data => {
+                // Verificar si se obtuvo una respuesta válida
+                if (data.status === 200 && data.value.length > 0) {
+                    var cita = data.value[0];
+
+                    // Mostrar los datos en los elementos correspondientes
+                    resultId.textContent = cita.ID;
+                    resultClientName.textContent = cita.CLIENT_NAME;
+                    resultTypeDocument.textContent = cita.TYPE_DOCUMENT;
+                    resultTypeQuote.textContent = cita.TYPE_QUOTE;
+                    resultDoctorName.textContent = cita.DOCTOR_NAME;
+                    resultDateQuote.textContent = cita.DATE_QUOTE;
+                    resultAgeClient.textContent = cita.AGE_CLIENT;
+                } else {
+                    // Mostrar un mensaje de error si no se encontraron resultados
+                    resultId.textContent = 'No se encontraron resultados';
+                }
+            })
+            .catch(error => {
+                // Mostrar un mensaje de error en caso de fallo en la petición
+                resultId.textContent = 'Error al obtener los datos';
+                console.error(error);
+            });
+    });
+</script>
